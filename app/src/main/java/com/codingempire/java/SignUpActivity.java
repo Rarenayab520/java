@@ -1,8 +1,6 @@
 package com.codingempire.java;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,9 +8,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText username, password, email;
@@ -32,21 +27,20 @@ public class SignUpActivity extends AppCompatActivity {
 
         btnSignUp.setOnClickListener(v -> {
 
-            String userStr = username.getText().toString();
-            String emailStr = email.getText().toString();
-            String passStr = password.getText().toString();
+            String userNameString = username.getText().toString().trim();
+            String emailString = email.getText().toString().trim();
+            String passwordStr = password.getText().toString().trim();
 
-            if (userStr.isEmpty() || emailStr.isEmpty() || passStr.isEmpty()) {
+            if (userNameString.isEmpty() || emailString.isEmpty() || passwordStr.isEmpty()) {
                 Toast.makeText(this, "Please fill all the feilds", Toast.LENGTH_SHORT).show();
                 return;
             }
-           UserModel user = new UserModel(userStr,emailStr,passStr);
+            UserModel user = new UserModel(userNameString, emailString, passwordStr);
             sharedPrefs.saveUser(user);
             sharedPrefs.setIsLoggedIn(false);
 
             Toast.makeText(this, "Sign Up Successful! Please login.", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
         });
-
     }
 }
