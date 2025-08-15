@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     EditText email, password;
+    TextView signUp;
     Button btnSign;
     SharedPreferences sharedPreferences;
 
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
         btnSign = findViewById(R.id.btnSignIn);
+        signUp = findViewById(R.id.tvsignup);
 
         sharedPreferences = getSharedPreferences("MyPrefrences", MODE_PRIVATE);
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
@@ -48,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "InValid Credentials", Toast.LENGTH_SHORT).show();
             }
         });
-
-
+        signUp.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, SignUpActivity.class));
+        });
     }
 }
