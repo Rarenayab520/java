@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.etEmail);
         signUp = findViewById(R.id.tvsignup);
         btnSign = findViewById(R.id.btnSignIn);
-       SharedPrefs sharedPrefs=new SharedPrefs(this);
+       SharedPrefs sharedPrefs= new SharedPrefs(this);
        if(sharedPrefs.isLoggedIn()){
            startActivity(new Intent(MainActivity.this,HomeActivity.class));
            finish();

@@ -24,9 +24,9 @@ public class HomeActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         SharedPrefs sharedPrefs = new SharedPrefs(this);
         UserModel user = sharedPrefs.getUser();
-
-        tvWelcome.setText("Welcome " + user.getUsername() + "!");
-
+       if (user != null) {
+           tvWelcome.setText("Welcome " + user.getUsername() + "!");
+       }
         btnLogout.setOnClickListener(view -> {
             sharedPrefs.setIsLoggedIn(false);
             startActivity(new Intent(HomeActivity.this, MainActivity.class));
