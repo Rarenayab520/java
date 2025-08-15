@@ -22,16 +22,14 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         tvWelcome = findViewById(R.id.tvRecieved);
         btnLogout = findViewById(R.id.btnLogout);
-        prefs = getSharedPreferences("MyPrefrences", MODE_PRIVATE);
-        String username = prefs.getString("username", "User");
+        SharedPrefs sharedPrefs = new SharedPrefs(this);
+        UserModel user = sharedPrefs.getUser();
 
-        tvWelcome.setText("Welcome " + username + "!");
+        tvWelcome.setText("Welcome " + user.getUsername() + "!");
 
         btnLogout.setOnClickListener(view -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("isLoggedIn", false);
-            editor.apply();
-            startActivity(new Intent(HomeActivity.this,MainActivity.class));
+            sharedPrefs.setIsLoggedIn(false);
+            startActivity(new Intent(HomeActivity.this, MainActivity.class));
             finish();
         });
 

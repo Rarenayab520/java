@@ -18,35 +18,33 @@ public class MainActivity extends AppCompatActivity {
     EditText email, password;
     TextView signUp;
     Button btnSign;
-    SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
-        btnSign = findViewById(R.id.btnSignIn);
+        email = findViewById(R.id.etEmail);
         signUp = findViewById(R.id.tvsignup);
-
-        sharedPreferences = getSharedPreferences("MyPrefrences", MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            startActivity(new Intent(MainActivity.this, HomeActivity.class));
-        }
+        btnSign = findViewById(R.id.btnSignIn);
+       SharedPrefs sharedPrefs=new SharedPrefs(this);
+       if(sharedPrefs.isLoggedIn()){
+           startActivity(new Intent(MainActivity.this,HomeActivity.class));
+           finish();
+       }
         btnSign.setOnClickListener(view -> {
             String inputEmail = email.getText().toString();
             String inputPassword = password.getText().toString();
+            UserModel savedUser = sharedPrefs.getUser();
 
-            String savedEmail = sharedPreferences.getString("email", "");
-            String savedPass = sharedPreferences.getString("password", "");
+            if (savedUser != null && inputEmail.equals(savedUser.getEmail()) && inputPassword.equals(savedUser.getPassword())){
 
-            if (inputEmail == savedEmail && inputPassword == savedPass) {
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.putBoolean("isLoggedIn", true);
-                edit.apply();
+                sharedPrefs.setIsLoggedIn(true);
                 Toast.makeText(this, "Login Successful...!!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                finish();
             } else {
                 Toast.makeText(this, "InValid Credentials", Toast.LENGTH_SHORT).show();
             }

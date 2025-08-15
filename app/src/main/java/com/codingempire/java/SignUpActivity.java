@@ -17,19 +17,18 @@ import androidx.core.view.WindowInsetsCompat;
 public class SignUpActivity extends AppCompatActivity {
     EditText username, password, email;
     Button btnSignUp;
-    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
-
-        prefs = getSharedPreferences("MyPrefrences", Context.MODE_PRIVATE);
+        btnSignUp = findViewById(R.id.btnSignUp);
         username = findViewById(R.id.etUsername);
         password = findViewById(R.id.etPassword);
         email = findViewById(R.id.etEmail);
-        btnSignUp = findViewById(R.id.btnSignUp);
+        SharedPrefs sharedPrefs = new SharedPrefs(this);
+
 
         btnSignUp.setOnClickListener(v -> {
 
@@ -41,12 +40,9 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please fill all the feilds", Toast.LENGTH_SHORT).show();
                 return;
             }
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putString("username", userStr);
-            edit.putString("email", emailStr);
-            edit.putString("password", passStr);
-            edit.putBoolean("isLoggedIn", false);
-            edit.apply();
+           UserModel user = new UserModel(userStr,emailStr,passStr);
+            sharedPrefs.saveUser(user);
+            sharedPrefs.setIsLoggedIn(false);
 
             Toast.makeText(this, "Sign Up Successful! Please login.", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
